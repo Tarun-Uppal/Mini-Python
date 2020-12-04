@@ -8,7 +8,7 @@ import os
 
 # account credentials
 username = "tarunpreetuppal2007@gmail.com"
-password = "your email password"
+password = input("please enter your password: ")
 
 # create an IMAP4 class with SSL 
 imap = imaplib.IMAP4_SSL("imap.gmail.com")
