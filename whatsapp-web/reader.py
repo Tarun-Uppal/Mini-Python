@@ -8,6 +8,8 @@ from simon.chat.pages import ChatPage
 from simon.chats.pages import PanePage
 from simon.header.pages import HeaderPage
 
+#  git bash admin: python P:/Mini-Python/whatsapp-web/reader.py
+
 # Creating the driver (browser)
 driver = webdriver.Chrome('P:\Mini-Python\whatsapp-web\chromedriver')
 driver.maximize_window()
@@ -61,8 +63,9 @@ for msg in msgs:
 msg = msgs[0]  # get the first of the messages query done in previous step
 msg = chat_page.messages.newest(filterby='contact')
 # Be careful as library can only now reply to text message
+
 # Replying to a msg type (video, image, giff, etc) is not implemented yet. 
-msg.reply("This a reply to a specific text msg.")
+# msg.reply("This a reply to a specific text msg.")
 
 
 # Logout
