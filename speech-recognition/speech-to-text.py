@@ -3,7 +3,7 @@
 import speech_recognition as sr 
 import time
 
-
+# usage: git bash: python P:/Mini-Python/speech-recognition/speech-to-text.py
 
 def getSaidWords():
    #Sample rate is how often values are recorded 
@@ -28,8 +28,8 @@ def getSaidWords():
             
       try: 
          text = r.recognize_google(audio) 
-         print("you said: " + text)
-         
+         print("you said: " + text)  
+      
       #error occurs when google could not understand what was said 
          
       except sr.UnknownValueError: 
