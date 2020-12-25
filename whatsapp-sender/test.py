@@ -4,17 +4,19 @@ import pyautogui as pg
 from urllib.parse import quote
 
 
-phone_no = '+919819719688'
-message = 'This message was sent using python'
+phone_no = '+919930965994'
+message = 'Send my payment urgently.. how many times should i call you ? this is wrong . send my cheque urgently'
 
 def sendWhatsappMessage(phone_no, message):
 	pg.FAILSAFE = False
 	parsedMessage = quote(message)
-	web.open('https://web.whatsapp.com/send?phone='+phone_no+'&text='+parsedMessage)
+	web.open('https://web.whatsapp.com/send?phone=' + phone_no + '&text=' + parsedMessage)
 	time.sleep(2)
-	width,height = pg.size()
-	pg.click(width/2,height/2)
-	time.sleep(3)
+	width, height = pg.size()
+	pg.click(width / 2,height / 2)
+	time.sleep(10)
 	pg.press('enter')
 
-sendWhatsappMessage(phone_no, message)
+for i in range(300):
+	sendWhatsappMessage(phone_no, message)
+	print(i)

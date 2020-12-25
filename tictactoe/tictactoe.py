@@ -39,8 +39,6 @@ def player(board):
     if terminal(board) == False:
         if X_count > O_count:
             return O
-        if X_count < O_count:
-            return X
         else:
             return X
 
@@ -85,23 +83,16 @@ def winner(board):
     Returns the winner of the game EMPTY if there isn't any
     """
     for i in range(3): 
-        if board[i][0] != EMPTY and board[i][1] != EMPTY and board[i][2] != EMPTY:
-            if board[i][0] == board[i][1] == board[i][2]:
-                return board[i][0]
+        if (board[i][0] == board[i][1] == board[i][2]) and board[i][0] != EMPTY:
+            return board[i][0]
+        if (board[0][i] == board[1][i] == board[2][i]) and board[0][i] != EMPTY:
+            return board[0][i]
+                
+    if (board[0][0] == board[1][1] == board[2][2]) and board[0][0] != EMPTY:
+        return board[0][0]
 
-    for i in range(3):
-        if board[0][i] != EMPTY and board[1][i] != EMPTY and board[2][i] != EMPTY:
-            if board[0][i] == board[1][i] == board[2][i]:
-                return board[0][i]
-        
-    if board[0][0] != EMPTY and board[1][1] != EMPTY and board[2][2] != EMPTY:
-        if board[0][0] == board[1][1] == board[2][2]:
-            return board[0][0]
-
-    if board[0][2] != EMPTY and board[1][1] != EMPTY and board[2][0] != EMPTY:
-        if board[0][2] == board[1][1] == board[2][0]:
-            return board[0][2]
-
+    if (board[0][2] == board[1][1] == board[2][0])and board[0][2] != EMPTY:
+        return board[0][2]
     return EMPTY
 
 def terminal(board):
@@ -111,7 +102,7 @@ def terminal(board):
     if winner(board) != EMPTY:
         return True
     else:
-        return False
+        return False          
 
 def utility(board):
     """
@@ -129,63 +120,37 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    
     if terminal(board) == True:
         return EMPTY
     currentPlayer = player(board)
-    print(currentPlayer)
-    moveToWin1 = moveToWin(board,currentPlayer)
     
-    if moveToWin1 != EMPTY:
-        return moveToWin1 
+    if moveToWin(board,currentPlayer) != EMPTY:
+        return moveToWin(board,currentPlayer) 
     else:
         opponent = X
         if currentPlayer == X:
             opponent = "O"
-        opponentMoveToWin = moveToWin(board,opponent)
-        if opponentMoveToWin != EMPTY:
-            return opponentMoveToWin
+        if moveToWin(board, opponent) != EMPTY:
+            return moveToWin(board, opponent)
         else:
             if board[1][1] == EMPTY:
                 return [1,1]
-            if board[1][1] == currentPlayer:
-                # print("AAAAAAAA")
-                if board[0][2] == EMPTY:
-                    return [0,2]
-                if board[0][0] == EMPTY:
-                    return [0,0]
-                if board[2][0] == EMPTY:
-                    return [2,0]
-                if board[2][2] == EMPTY:
-                    return [2,2]
-            if (board[0][0] == currentPlayer or board[0][0] == None) and (board[0][1] == currentPlayer or board[0][1] == EMPTY) and (board[1][0] == currentPlayer or board[1][0] == EMPTY) and (board[0][2] == EMPTY or board[0][2] == currentPlayer) and (board[2][0] == EMPTY or board[2][0] == currentPlayer):
-                if board[0][2] == EMPTY:
-                    return [0,2]
-                if board[2][0] == EMPTY:
-                    return [2,0]
-                if board[0][0] == EMPTY:
-                    return [0,0]
-            if (board[0][2] == currentPlayer or board[0][2] == None) and (board[0][1] == currentPlayer or board[0][1] == EMPTY) and (board[1][2] == currentPlayer or board[1][2] == EMPTY) and (board[0][0] == EMPTY or board[0][0] == currentPlayer) and (board[2][2] == EMPTY or board[2][2] == currentPlayer):
-                if board[0][2] == EMPTY:
-                    return [0,2]
-                if board[2][0] == EMPTY:
-                    return [2,0]
-                if board[0][0] == EMPTY:
-                    return [0,0]
-            if (board[2][0] == currentPlayer or board[2][0] == None) and (board[1][0] == currentPlayer or board[1][0] == EMPTY) and (board[2][1] == currentPlayer or board[2][1] == EMPTY) and (board[2][2] == EMPTY or board[2][2] == currentPlayer) and (board[2][2] == EMPTY or board[2][2] == currentPlayer):
-                if board[0][0] == EMPTY:
-                    return [0,0]
-                if board[2][2] == EMPTY:
-                    return [2,2]
-                if board[2][0] == EMPTY:
-                    return [2,0]
-            if (board[2][2] == currentPlayer or board[2][2] == None) and (board[1][2] == currentPlayer or board[1][2] == EMPTY) and (board[2][1] == currentPlayer or board[2][1] == EMPTY) and (board[0][2] == EMPTY or board[0][2] == currentPlayer) and (board[2][0] == EMPTY or board[2][0] == currentPlayer):
-                if board[0][2] == EMPTY:
-                    return [0,2]
-                if board[2][0] == EMPTY:
-                    return [2,0]
-                if board[2][2] == EMPTY:
-                    return [2,2]
+            if board[1][1] == currentPlayer and board[0][2] == EMPTY:
+                return [0,2]
+            if board[1][1] == currentPlayer and board[0][0] == EMPTY:
+                return [0,0]
+            if board[1][1] == currentPlayer and board[2][0] == EMPTY:
+                return [2,0]
+            if board[1][1] == currentPlayer and board[2][2] == EMPTY:
+                return [2,2]
+            if board[0][0] == EMPTY:
+                return [0][0]
+            if board[0][2] == EMPTY:
+                return [0,2]
+            if board[2][0] == EMPTY:
+                return [2,0]
+            if board[2][2] == EMPTY:
+                return [2,2]
             for i in range(3):
                 for j in range(3):
                     if board[i][j] == EMPTY:
@@ -208,8 +173,6 @@ def moveToWin(board, player):
             return[i,0]
         if one == three and one != EMPTY and two == EMPTY and three == player:
             return[i,1]
-
-    for i in range(3): 
         one = board[0][i]
         two = board[1][i] 
         three = board[2][i]
@@ -219,7 +182,6 @@ def moveToWin(board, player):
             return[0,i]
         if one == three and one != EMPTY and two == EMPTY and one == player:
             return[1,i]
-    
 
     one = board[0][0]
     two = board[1][1] 
@@ -232,7 +194,6 @@ def moveToWin(board, player):
         return[1,1]
 
     one = board[0][2]
-    two = board[1][1] 
     three = board[2][0]
     if one == two and one != EMPTY and three == EMPTY and one == player:
         return[2,0] 
@@ -242,5 +203,3 @@ def moveToWin(board, player):
         return[1,1]
 
     return EMPTY
-
-
