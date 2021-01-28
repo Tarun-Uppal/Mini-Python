@@ -4,8 +4,8 @@ import pyautogui as pg
 from urllib.parse import quote
 
 
-phone_no = '+919930965994'
-message = 'Send my payment urgently.. how many times should i call you ? this is wrong . send my cheque urgently'
+phone_no = '+91'
+message = ''
 
 def sendWhatsappMessage(phone_no, message):
 	pg.FAILSAFE = False

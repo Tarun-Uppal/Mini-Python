@@ -3,6 +3,10 @@
 import speech_recognition as sr 
 import time
 
+# if you cant install pyaudio install pipwin and then using pipwin install pyaudio
+# pip install pipwin
+# pipwin install pyaudio
+
 # usage: git bash: python P:/Mini-Python/speech-recognition/speech-to-text.py
 
 def getSaidWords():
