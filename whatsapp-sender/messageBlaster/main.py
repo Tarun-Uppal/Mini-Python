@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains  
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
+# imports the keyboard and text part of selenium
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
 from selenium import webdriver  
@@ -33,24 +34,23 @@ def main():
 def sender(numbers, contacts):
     global browser, attachment_path, time
     numbers_size = len(numbers)
+    whatsapp_login(False)
     for i in range(numbers_size):
         number = numbers[i]
         if number == 2:
             print("Invalid Number")
         else:
-            message = "Your name is " + contacts[i]
-            whatsapp_login()
+            message = "Dear " + contacts[i] + "\n\nOver 50+ international products on sale at reasonable prices, visit www.edutess.com/shop/ to buy now"
             link = "https://web.whatsapp.com/send?phone={}&text&source&data&app_absent".format(910000000000+number)
             browser.get(link)
             print("Sending message to", str(number))
-            time.sleep(3)
             send_attachment(attachment_path)
+            time.sleep(1)
             send_unsaved_contact_message(message)
             time.sleep(1)
-            browser.quit()
         print(number)
-        
-
+    browser.quit()
+    
 def read_file():
     global contacts_path
     xlsx_file = Path(contacts_path)
@@ -65,10 +65,12 @@ def read_file():
         numbers.append(sheet["C" + str(i+1)].value)
     return (contacts, numbers)
 
-def whatsapp_login():
+def whatsapp_login(headless):
     global wait, browser
     chrome_options = Options()
     chrome_options.add_argument('--user-data-dir=./User_Data')
+    if headless == True:
+        chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(executable_path=chrome_path, options=chrome_options)
     wait = WebDriverWait(browser, 60)
     browser.get(Link)
@@ -103,6 +105,8 @@ def send_message(target, message, browser):
         return
     
 def send_attachment(file_path):
+    global time
+    time.sleep(4)
     attachment_box = browser.find_element_by_xpath('//div[@title = "Attach"]')
     attachment_box.click()
     
@@ -110,7 +114,7 @@ def send_attachment(file_path):
 		'//input[@accept="image/*,video/mp4,video/3gpp,video/quicktime"]')
     image_box.send_keys(file_path)
     
-    time.sleep(3)
+    time.sleep(4)
     
     action = ActionChains(browser) 
     action.send_keys(Keys.ENTER).perform()
@@ -119,8 +123,7 @@ def send_attachment(file_path):
     
 def send_unsaved_contact_message(message):
     try:
-        time.sleep(10)
-        browser.implicitly_wait(10)
+        browser.implicitly_wait(8)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
             if ch == "\n":
