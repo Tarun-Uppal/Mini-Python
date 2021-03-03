@@ -42,6 +42,7 @@ def sender(numbers, contacts):
         else:
             message = "Dear " + contacts[i] + "\n\nOver 50+ international products on sale at reasonable prices, visit www.edutess.com/shop/ to buy now"
             link = "https://web.whatsapp.com/send?phone={}&text&source&data&app_absent".format(910000000000+number)
+            time.sleep(3)
             browser.get(link)
             print("Sending message to", str(number))
             send_attachment(attachment_path)
